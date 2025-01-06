@@ -9,6 +9,7 @@ __pycache__/
 .ipynb_checkpoints/
 
 # Virtual environment
+myenv/
 venv/
 env/
 ENV/
@@ -21,18 +22,6 @@ requirements.txt
 # Pipfile
 # Uncomment the next line if you are using poetry
 # poetry.lock
-
-# Data files
-*.csv
-*.tsv
-*.json
-*.h5
-*.pkl
-*.zip
-*.tar
-*.tar.gz
-*.tar.bz2
-*.tar.xz
 
 # Model checkpoints and logs
 models/
