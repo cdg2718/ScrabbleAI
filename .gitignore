@@ -1,0 +1,61 @@
+# Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.pdb
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Virtual environment
+venv/
+env/
+ENV/
+.venv/
+.python/
+
+# Dependencies
+requirements.txt
+# Uncomment the next line if you are using pipenv
+# Pipfile
+# Uncomment the next line if you are using poetry
+# poetry.lock
+
+# Data files
+*.csv
+*.tsv
+*.json
+*.h5
+*.pkl
+*.zip
+*.tar
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+
+# Model checkpoints and logs
+models/
+*.h5
+*.pth
+*.ckpt
+*.log
+
+# Output of experiments
+outputs/
+*.png
+*.jpg
+*.jpeg
+*.svg
+*.mp4
+*.avi
+
+# System files
+.DS_Store
+Thumbs.db
+
+
+# Egg and Distribution Files
+*.egg-info/
+*.dist-info/
+*.egg
