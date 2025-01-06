@@ -1,0 +1,33 @@
+# Core Libraries
+numpy>=1.21.0
+pandas>=1.3.0
+scikit-learn>=0.24.0
+scipy>=1.7.0
+matplotlib>=3.4.0
+seaborn>=0.11.0
+
+# Machine Learning
+xgboost>=1.4.0  # Add XGBoost for gradient boosting
+
+# Deep Learning Frameworks (Optional, depending on your project)
+tensorflow>=2.5.0
+torch>=1.9.0
+torchvision>=0.10.0
+
+# Data Processing
+scikit-image>=0.18.0
+opencv-python>=4.5.0
+Pillow>=8.2.0
+
+# Natural Language Processing (NLP)
+transformers>=4.10.0
+spacy>=3.0.0
+
+# Others
+tqdm>=4.60.0  # For progress bars
+joblib>=1.0.0  # For saving models
+mlflow>=1.19.0  # Model management
+
+# Version control tool for reproducibility
+dvc>=2.0.0  # Optional for data versioning
+

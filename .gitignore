@@ -17,7 +17,6 @@ ENV/
 .python/
 
 # Dependencies
-requirements.txt
 # Uncomment the next line if you are using pipenv
 # Pipfile
 # Uncomment the next line if you are using poetry
