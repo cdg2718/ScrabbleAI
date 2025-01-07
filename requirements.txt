@@ -1,18 +1,12 @@
 # Core Libraries
-numpy>=1.21.0
 pandas>=1.3.0
-scikit-learn>=0.24.0
+scikit-learn==1.5.2
 scipy>=1.7.0
 matplotlib>=3.4.0
 seaborn>=0.11.0
 
 # Machine Learning
 xgboost>=1.4.0  # Add XGBoost for gradient boosting
-
-# Deep Learning Frameworks (Optional, depending on your project)
-tensorflow>=2.5.0
-torch>=1.9.0
-torchvision>=0.10.0
 
 # Data Processing
 scikit-image>=0.18.0
