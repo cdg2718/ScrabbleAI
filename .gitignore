@@ -23,7 +23,6 @@ ENV/
 # poetry.lock
 
 # Model checkpoints and logs
-models/
 *.h5
 *.pth
 *.ckpt
