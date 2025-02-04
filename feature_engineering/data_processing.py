@@ -2,7 +2,7 @@ import pandas as pd
 import time
 from typing import Dict
 from feature_engineering.board_parsing import parse_run_tile_representation
-from feature_engineering.utils import tile_vector, TILE_ORDER
+from feature_engineering.utils import tile_vector, TILE_ORDER, TILE_DIST
 
 def parse_scrabble_line(line: str) -> Dict:
     """
@@ -25,17 +25,25 @@ def parse_scrabble_line(line: str) -> Dict:
 
     leave_vector = tile_vector(leave)
     
-    # Compute unseen tiles (all tiles minus board and leave)
-    unseen_tiles = list("".join(parts[0].split("/")))  # Extract tiles from board
-    unseen_vector = tile_vector(unseen_tiles)
+    unseen_tiles = dict(TILE_DIST)
+    for el in board_state:
+        if not el.isalpha():
+            continue
+        if el.islower():
+            unseen_tiles["?"] -= 1
+        else:
+            unseen_tiles[el] -= 1
 
+    for el in leave:
+        unseen_tiles[el] -= 1
+    
     return {
         "board": board,  # 15x15 matrix representation
         "board_rep": board_state,  # Original compact representation
         "score_diff": score_diff,
-        "total_unseen_tiles": sum(unseen_vector),  # Sanity check
+        "total_unseen_tiles": sum([v for _, v in unseen_tiles.items()]),  # Sanity check
         **{f"leave_{letter}": leave_vector[i] for i, letter in enumerate(TILE_ORDER)},
-        **{f"unseen_{letter}": unseen_vector[i] for i, letter in enumerate(TILE_ORDER)},
+        **{f"unseen_{letter}": unseen_tiles[letter] for letter in TILE_ORDER},
         "winProb": winProb,
         "expPointDiff": expDiff
     }

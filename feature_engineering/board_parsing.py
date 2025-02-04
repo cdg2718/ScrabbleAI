@@ -1,4 +1,4 @@
-from scrabble_ai.types import Board
+from feature_engineering.types import Board
 
 def parse_run_tile_representation(data: str) -> Board:
     """
