@@ -64,8 +64,9 @@ class DAWG:
 
     def is_valid_word(self, word: str) -> bool:
         """Check if a word exists in the DAWG."""
+        word = word.upper()
         current_node = self.root
-        for char in word:
+        for char in word.upper():
             current_node = current_node.get_child(char)
             if current_node is None:
                 return False

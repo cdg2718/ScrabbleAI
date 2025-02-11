@@ -1,22 +1,22 @@
 from typing import Dict, Set
 from game_logic.dawg import DAWG
-from game_logic.types import Board, CrossCheck, open_square_cross_check
-from game_logic.utils import map_key, get_tile_value
+from game_logic.types import Board, CrossCheck, CrossCheckBoard, open_square_cross_check
+from game_logic.utils import get_tile_value
 
-def find_anchors_with_cross_checks(board: Board, dawg: DAWG) -> Dict[str, CrossCheck]:
-    cross_check_map: Dict[str, CrossCheck] = {}
+def find_anchors_with_cross_checks(board: Board, dawg: DAWG) -> CrossCheckBoard:
+    cross_check_board: CrossCheckBoard = [[None for _ in range(15)] for _ in range(15)]
 
     if board[7][7] is None:
-        cross_check_map[map_key(7, 7)] = open_square_cross_check
-        return cross_check_map
+        cross_check_board[7][7] = open_square_cross_check
+        return cross_check_board
 
     for row in range(len(board)):
         for col in range(len(board[row])):
             if board[row][col] is None and has_adjacent_tile(board, row, col):
                 cross_check = compute_cross_check(board, row, col, dawg)
-                cross_check_map[map_key(row, col)] = cross_check
+                cross_check_board[row][col] = cross_check
 
-    return cross_check_map
+    return cross_check_board
 
 def has_adjacent_tile(board: Board, row: int, col: int) -> bool:
     return (

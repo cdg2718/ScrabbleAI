@@ -1,7 +1,8 @@
-from typing import List, Dict
+from typing import List, Dict, TypeVar
+
 import numpy as np
 
-from game_logic.types import Board
+from game_logic.types import Board, CrossCheckBoard
 
 TILE_DIST = {
     "A": 9, "B": 2, "C": 2, "D": 4, "E": 12, "F": 2, "G": 3, "H": 2, "I": 9,
@@ -47,36 +48,16 @@ TILE_VALUES: Dict[str, int] = {
 for char in "abcdefghijklmnopqrstuvwxyz":
     TILE_VALUES[char] = 0
 
+T = TypeVar("T")  # Allows any data type
+
+def transpose(matrix: List[List[T]]) -> List[List[T]]:
+    """Generically transposes any list of lists."""
+    return [list(row) for row in zip(*matrix)]
+
 
 def get_tile_value(letter: str) -> int:
     """Returns the score value of a tile, handling blanks (lowercase) as 0."""
     return TILE_VALUES.get(letter, 0)
-
-# Mapping functions
-def row_col_key(row: int, col: int) -> str:
-    return f"{row}-{col}"
-
-def row_col_from_key(key: str) -> Tuple[int, int]:
-    row, col = map(int, key.split("-"))
-    return row, col
-
-def tile_vector(tiles: List[str]) -> np.ndarray:
-    """
-    Converts a list of letters into a 27D tile count vector.
-
-    Args:
-        tiles (List[str]): List of tile characters.
-
-    Returns:
-        np.ndarray: 27D vector where each index corresponds to a tile count.
-    """
-    tile_counts = {tile: 0 for tile in TILE_ORDER}
-    for tile in tiles:
-        if tile in tile_counts:
-            tile_counts[tile] += 1
-    
-    return np.array([tile_counts[tile] for tile in TILE_ORDER], dtype=np.int32)
-
 
 def pretty_print_board(board: Board) -> None:
     """
@@ -98,4 +79,42 @@ def pretty_print_board(board: Board) -> None:
                 row_str += f" {SPECIAL_TILE_ICONS[SPECIAL_TILES_LOCATIONS[row_idx][col_idx]]} "
             else:
                 row_str += " . "
+        print(row_str)
+
+def pretty_print_board_with_crosschecks(board: Board, cross_check_board: CrossCheckBoard) -> None:
+    """
+    Prints a Scrabble board with both tile placements and cross-check constraints.
+
+    - Empty squares show either:
+      - The number of valid cross-check letters (if cross-checks exist).
+      - Special tile indicators (e.g., TWS, DWS, TLS, DLS).
+      - A "." if completely empty.
+    - Tile letters are shown in uppercase for normal tiles, lowercase for blanks.
+    - Ensures consistent spacing even for single/double digit numbers.
+
+    Args:
+        board (Board): A 15x15 list of lists, where each cell is None or a letter.
+        cross_check_board (CrossCheckBoard): A 15x15 list of lists, where each cell is None or a CrossCheck object.
+    """
+    CELL_WIDTH = 3  # Fixed width for consistent alignment
+
+    for row_idx in range(15):
+        row_str = ""
+        for col_idx in range(15):
+            tile = board[row_idx][col_idx]
+            cross_check = cross_check_board[row_idx][col_idx]
+
+            if tile is not None:  # Letter tile present
+                cell_str = tile  # Single letter
+            elif cross_check is not None and not cross_check.is_open_square:  # Show valid letter count
+                cell_str = str(len(cross_check.valid_letters))  # Show count
+            elif cross_check is not None and cross_check.is_open_square:
+                cell_str = "○"  # Open squares
+            elif SPECIAL_TILES_LOCATIONS[row_idx][col_idx]:  # Special tile
+                cell_str = SPECIAL_TILE_ICONS[SPECIAL_TILES_LOCATIONS[row_idx][col_idx]]
+            else:
+                cell_str = "."  # Empty square
+            
+            row_str += cell_str.center(CELL_WIDTH)  # Ensures all cells have the same width
+
         print(row_str)
