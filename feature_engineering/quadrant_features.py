@@ -1,4 +1,4 @@
-from feature_engineering.types import Board
+from game_logic.types import Board
 from typing import Dict
 
 def count_tiles_in_quadrants(board: Board) -> Dict[str, int]:

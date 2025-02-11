@@ -2,7 +2,25 @@ import pandas as pd
 import time
 from typing import Dict
 from feature_engineering.board_parsing import parse_run_tile_representation
-from feature_engineering.utils import tile_vector, TILE_ORDER, TILE_DIST
+from game_logic.utils import TILE_ORDER, TILE_DIST
+
+def tile_vector(tiles: List[str]) -> np.ndarray:
+    """
+    Converts a list of letters into a 27D tile count vector.
+
+    Args:
+        tiles (List[str]): List of tile characters.
+
+    Returns:
+        np.ndarray: 27D vector where each index corresponds to a tile count.
+    """
+    tile_counts = {tile: 0 for tile in TILE_ORDER}
+    for tile in tiles:
+        if tile in tile_counts:
+            tile_counts[tile] += 1
+    
+    return np.array([tile_counts[tile] for tile in TILE_ORDER], dtype=np.int32)
+
 
 def parse_scrabble_line(line: str) -> Dict:
     """

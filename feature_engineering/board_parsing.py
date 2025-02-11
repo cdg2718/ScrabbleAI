@@ -1,4 +1,4 @@
-from feature_engineering.types import Board
+from game_logic.types import Board
 
 def parse_run_tile_representation(data: str) -> Board:
     """

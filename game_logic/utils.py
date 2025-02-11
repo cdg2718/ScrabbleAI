@@ -1,7 +1,7 @@
 from typing import List, Dict
 import numpy as np
 
-from feature_engineering.types import Board
+from game_logic.types import Board
 
 TILE_DIST = {
     "A": 9, "B": 2, "C": 2, "D": 4, "E": 12, "F": 2, "G": 3, "H": 2, "I": 9,
@@ -36,6 +36,29 @@ SPECIAL_TILES_LOCATIONS = [
     ["TWS", None, None, "DLS", None, None, None, "TWS", None, None, None, "DLS", None, None, "TWS"],
 ]
 
+# Tile values based on Scrabble scoring
+TILE_VALUES: Dict[str, int] = {
+    "A": 1, "B": 3, "C": 3, "D": 2, "E": 1, "F": 4, "G": 2, "H": 4, "I": 1,
+    "J": 8, "K": 5, "L": 1, "M": 3, "N": 1, "O": 1, "P": 3, "Q": 10, "R": 1,
+    "S": 1, "T": 1, "U": 1, "V": 4, "W": 4, "X": 8, "Y": 4, "Z": 10
+}
+
+# Blanks (lowercase a-z) have a score of 0
+for char in "abcdefghijklmnopqrstuvwxyz":
+    TILE_VALUES[char] = 0
+
+
+def get_tile_value(letter: str) -> int:
+    """Returns the score value of a tile, handling blanks (lowercase) as 0."""
+    return TILE_VALUES.get(letter, 0)
+
+# Mapping functions
+def row_col_key(row: int, col: int) -> str:
+    return f"{row}-{col}"
+
+def row_col_from_key(key: str) -> Tuple[int, int]:
+    row, col = map(int, key.split("-"))
+    return row, col
 
 def tile_vector(tiles: List[str]) -> np.ndarray:
     """
