@@ -13,7 +13,7 @@ def count_tiles_in_quadrants(board: Board) -> Dict[str, int]:
         - Lower Right (LR)  → Rows 8-14, Cols 8-14
 
     Args:
-        board (Board): A 15x15 list of lists, where each cell is None or a letter.
+        board (Board)
 
     Returns:
         Dict[str, int]: A dictionary with counts of tiles in each quadrant.
